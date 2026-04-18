@@ -173,7 +173,7 @@ export function createClient(config: Config): LlamaClient {
         method: 'POST',
         body: JSON.stringify({
           prompt,
-          n_predict: options?.max_tokens ?? 256,
+          n_predict: options?.max_tokens ?? 4096,
           temperature: options?.temperature ?? 0.7,
           top_p: options?.top_p ?? 0.9,
           top_k: options?.top_k ?? 40,
@@ -187,11 +187,12 @@ export function createClient(config: Config): LlamaClient {
         method: 'POST',
         body: JSON.stringify({
           messages,
-          max_tokens: options?.max_tokens ?? 256,
+          max_tokens: options?.max_tokens ?? 4096,
           temperature: options?.temperature ?? 0.7,
           top_p: options?.top_p ?? 0.9,
           stop: options?.stop,
           seed: options?.seed,
+          ...(options?.thinking_budget_tokens !== undefined && { thinking_budget_tokens: options.thinking_budget_tokens }),
         }),
       }),
 
@@ -207,7 +208,7 @@ export function createClient(config: Config): LlamaClient {
         body: JSON.stringify({
           input_prefix: prefix,
           input_suffix: suffix,
-          n_predict: options?.max_tokens ?? 256,
+          n_predict: options?.max_tokens ?? 4096,
           temperature: options?.temperature ?? 0.7,
           stop: options?.stop,
         }),

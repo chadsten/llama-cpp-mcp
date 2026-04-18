@@ -10,7 +10,7 @@ import { formatError } from '../utils.js';
  */
 const CompleteInputSchema = z.object({
     prompt: z.string().describe('The prompt to complete'),
-    max_tokens: z.number().optional().default(256).describe('Maximum tokens to generate'),
+    max_tokens: z.number().optional().default(4096).describe('Maximum tokens to generate'),
     temperature: z.number().optional().default(0.7).describe('Sampling temperature (0-2)'),
     top_p: z.number().optional().default(0.9).describe('Nucleus sampling threshold'),
     top_k: z.number().optional().default(40).describe('Top-k sampling'),
@@ -64,11 +64,12 @@ const ChatMessageSchema = z.object({
  */
 const ChatInputSchema = z.object({
     messages: z.array(ChatMessageSchema).describe('Chat messages'),
-    max_tokens: z.number().optional().default(256).describe('Maximum tokens to generate'),
+    max_tokens: z.number().optional().default(4096).describe('Maximum tokens to generate'),
     temperature: z.number().optional().default(0.7).describe('Sampling temperature (0-2)'),
     top_p: z.number().optional().default(0.9).describe('Nucleus sampling threshold'),
     stop: z.array(z.string()).optional().describe('Stop sequences'),
     seed: z.number().optional().describe('Random seed for reproducibility'),
+    thinking_budget_tokens: z.number().optional().describe('Token budget for model reasoning/thinking (-1=unlimited, 0=disabled, N=limit). Controls Qwen/DeepSeek thinking mode.'),
 });
 /**
  * Create the llama_chat tool.
@@ -89,6 +90,7 @@ export function createChatTool(client) {
                     top_p: parsed.top_p,
                     stop: parsed.stop,
                     seed: parsed.seed,
+                    thinking_budget_tokens: parsed.thinking_budget_tokens,
                 });
                 return {
                     content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -144,7 +146,7 @@ export function createEmbedTool(client) {
 const InfillInputSchema = z.object({
     input_prefix: z.string().describe('Code before cursor'),
     input_suffix: z.string().describe('Code after cursor'),
-    max_tokens: z.number().optional().default(256).describe('Maximum tokens to generate'),
+    max_tokens: z.number().optional().default(4096).describe('Maximum tokens to generate'),
     temperature: z.number().optional().default(0.7).describe('Sampling temperature (0-2)'),
     stop: z.array(z.string()).optional().describe('Stop sequences'),
 });

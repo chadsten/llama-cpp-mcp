@@ -146,6 +146,7 @@ export interface ChatOptions {
   top_p?: number;
   stop?: string[];
   seed?: number;
+  thinking_budget_tokens?: number;
 }
 
 /**
