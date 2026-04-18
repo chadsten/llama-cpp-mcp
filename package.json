@@ -1,7 +1,7 @@
 {
-  "name": "llama-mcp-server",
+  "name": "llama-cpp-mcp",
   "version": "0.1.1",
-  "description": "MCP server bridging Claude Code to local llama.cpp",
+  "description": "MCP server for llama.cpp — works with any model llama.cpp supports (Qwen, Llama, Mistral, DeepSeek, Phi, Gemma, and more)",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,7 +39,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahays248/llama-mcp-server"
+    "url": "https://github.com/chadsten/llama-cpp-mcp"
   },
   "author": "Aaron Hays",
   "engines": {

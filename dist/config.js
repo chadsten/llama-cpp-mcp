@@ -9,7 +9,7 @@ import { z } from 'zod';
  */
 const ConfigSchema = z.object({
     serverUrl: z.string().url().default('http://localhost:8080'),
-    timeout: z.number().positive().default(30000),
+    timeout: z.number().positive().default(180000),
     modelPath: z.string().optional(),
     serverPath: z.string().default('llama-server'),
 });
@@ -18,7 +18,7 @@ const ConfigSchema = z.object({
  *
  * Environment variables:
  * - LLAMA_SERVER_URL: URL of llama-server (default: http://localhost:8080)
- * - LLAMA_SERVER_TIMEOUT: Request timeout in ms (default: 30000)
+ * - LLAMA_SERVER_TIMEOUT: Request timeout in ms (default: 180000)
  * - LLAMA_MODEL_PATH: Path to GGUF model file (optional)
  * - LLAMA_SERVER_PATH: Path to llama-server binary (default: llama-server)
  */
@@ -27,7 +27,7 @@ export function loadConfig() {
         serverUrl: process.env.LLAMA_SERVER_URL ?? 'http://localhost:8080',
         timeout: process.env.LLAMA_SERVER_TIMEOUT
             ? parseInt(process.env.LLAMA_SERVER_TIMEOUT, 10)
-            : 30000,
+            : 180000,
         modelPath: process.env.LLAMA_MODEL_PATH,
         serverPath: process.env.LLAMA_SERVER_PATH ?? 'llama-server',
     });

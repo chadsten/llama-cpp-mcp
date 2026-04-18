@@ -29,6 +29,17 @@ export function createProcessState(): ProcessState {
   };
 }
 
+function killProcess(childProcess: ChildProcess): void {
+  if (childProcess.pid === undefined) {
+    return;
+  }
+  if (process.platform === 'win32') {
+    spawn('taskkill', ['/pid', childProcess.pid.toString(), '/t', '/f']);
+  } else {
+    childProcess.kill('SIGTERM');
+  }
+}
+
 /**
  * Input schema for llama_start tool.
  */
@@ -151,7 +162,7 @@ export function createStartTool(
 
         if (!healthy) {
           // Clean up if server didn't become healthy
-          serverProcess.kill('SIGTERM');
+          killProcess(serverProcess);
           state.process = null;
           state.pid = null;
 
@@ -202,7 +213,7 @@ const StopInputSchema = z.object({});
 /**
  * Create the llama_stop tool.
  *
- * Stops the running llama-server process by sending SIGTERM.
+ * Stops the running llama-server process gracefully.
  */
 export function createStopTool(state: ProcessState): Tool {
   return {
@@ -227,7 +238,7 @@ export function createStopTool(state: ProcessState): Tool {
         const pid = state.pid;
 
         // Send SIGTERM to stop the process
-        state.process.kill('SIGTERM');
+        killProcess(state.process);
 
         // Clear stored state
         state.process = null;

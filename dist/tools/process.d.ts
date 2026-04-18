@@ -29,6 +29,6 @@ export declare function createStartTool(client: LlamaClient, config: Config, sta
 /**
  * Create the llama_stop tool.
  *
- * Stops the running llama-server process by sending SIGTERM.
+ * Stops the running llama-server process gracefully.
  */
 export declare function createStopTool(state: ProcessState): Tool;

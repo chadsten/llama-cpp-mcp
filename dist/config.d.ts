@@ -32,7 +32,7 @@ export type Config = z.infer<typeof ConfigSchema>;
  *
  * Environment variables:
  * - LLAMA_SERVER_URL: URL of llama-server (default: http://localhost:8080)
- * - LLAMA_SERVER_TIMEOUT: Request timeout in ms (default: 30000)
+ * - LLAMA_SERVER_TIMEOUT: Request timeout in ms (default: 180000)
  * - LLAMA_MODEL_PATH: Path to GGUF model file (optional)
  * - LLAMA_SERVER_PATH: Path to llama-server binary (default: llama-server)
  */

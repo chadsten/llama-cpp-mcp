@@ -54,7 +54,7 @@ function registerTool(server, tool) {
 export function createServer(client, config) {
     const server = new McpServer({
         name: 'llama-mcp-server',
-        version: '0.1.0',
+        version: '0.1.1',
     });
     // Create process state for start/stop tools
     const processState = createProcessState();
